@@ -93,6 +93,7 @@ public class Schedule extends Thread implements Serializable {
 	
 	// SWAP 1, TEAM 9
 	// QUALITY CHANGES
+	// The day schedule generation has slightly more complex logic and requires two return values, so this simple inner class holds that data.
 	private class GenerateDayScheduleReturn{
 		public boolean shouldBreak;
 		public int daysInMonth;
@@ -106,6 +107,8 @@ public class Schedule extends Thread implements Serializable {
 	
 	// SWAP 1, TEAM 9
 	// QUALITY CHANGES
+	// This function pulls out a massive amount of looping code from the main function. This piece
+	// allows us to modify the schedule generation that happens for each day.
 	private GenerateDayScheduleReturn generateDaySchedule(Day day, int daysInMonth, int currentMonth, ArrayList<Integer> numOfJobs){
 		if (this.cal.get(Calendar.DAY_OF_WEEK) == this.numForName(day
 				.getNameOfDay())) {
@@ -140,6 +143,9 @@ public class Schedule extends Thread implements Serializable {
 	
 	// SWAP 1, TEAM 9
 	// QUALITY CHANGES
+	// This code is the part that actually fills in who takes what job and when.
+	// Having it all in its own function is very useful! We can actually allow for
+	// some sort of preferences system here, for example.
 	private void fillJobs(Day day, ArrayList<String> jobsInOrder, ArrayList<String> workersWorking, TreeMap<String, Worker> jobsWithWorker){
 		for (String job : jobsInOrder) {
 
@@ -196,6 +202,7 @@ public class Schedule extends Thread implements Serializable {
 		// SWAP 1, TEAM 9
 		// QUALITY CHANGES
 		// Cleared out the code that resets the the calendar and sets up the month.
+		// With this modification, we can more easily create a new calendar and run with it.
 		recalculateSchedule();
 
 		// Used to see if month changes
@@ -211,6 +218,8 @@ public class Schedule extends Thread implements Serializable {
 				// SWAP 1, TEAM 9
 				// QUALITY CHANGES
 				// Cleared out the contents of this massive for loop to allow us to more easily modify it.
+				// New functionality, such as a new alternating algorithm for choosing who goes on what day, could be much more
+				// easily implemented.
 				GenerateDayScheduleReturn daySchedule = generateDaySchedule(day, daysInMonth, currentMonth, numOfJobs);
 				if (daySchedule.shouldBreak){
 					break; // Breaks so it doesn't check the other days
