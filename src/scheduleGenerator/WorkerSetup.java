@@ -76,6 +76,13 @@ public class WorkerSetup extends javax.swing.JFrame {
 	}
 
 	private void addWorker() {
+		
+		// SWAP 1, TEAM 9
+		// SMELL: Comments - The number of comments in the code below indicates that they are serving
+		// as dividers, in a way that would indicate we should extract methods from this function.
+		// This would vastly improve the code quality and readability here, allowing us to actually
+		// extend functionality in adding workers.
+		
 		this.days = Main.getDays();
 		javax.swing.JTabbedPane tempWorkerDays = new javax.swing.JTabbedPane();
 		javax.swing.JTextField tempWorkerName = new javax.swing.JTextField();
@@ -240,6 +247,10 @@ public class WorkerSetup extends javax.swing.JFrame {
 	 */
 	private void initComponents() {
 
+		// SWAP 1, TEAM 9
+		// SMELL: Long Method - This method below clearly is much longer than should be in one function.
+		// If we broke out this function into multiple sub-functions, we would be able to modify the
+		// worker setup menu much more easily, and would be able to add more functionality to it.
 		this.workerTabPanel = new javax.swing.JTabbedPane();
 		this.addButton = new javax.swing.JButton();
 		this.removeButton = new javax.swing.JButton();

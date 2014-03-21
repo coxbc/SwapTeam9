@@ -72,6 +72,10 @@ public class Schedule extends Thread implements Serializable {
 		}
 	}
 
+	private void recalculateSchedule(){
+		
+	}
+	
 	/**
 	 * Calculates another month of schedule based on workers availability.
 	 * 
@@ -187,6 +191,7 @@ public class Schedule extends Thread implements Serializable {
 	}
 
 	private int numForName(String nameOfDay) {
+
 		int dayNum = 0;
 		if (nameOfDay.equals("Sunday")) {
 			dayNum = 1;

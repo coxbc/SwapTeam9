@@ -10,12 +10,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author schneimd
  */
+
+// SWAP 1, TEAM 9
+// SMELL: Large Class - This class is absolutely enormous, which would indicate to us
+// that there is clearly a large amount of fluff or duplicate code inside that does not
+// belong in this class. Splitting it up into smaller classes would allow for better
+// modularity in our configuration menu.
+
+
 public class Config extends javax.swing.JFrame {
 
     private boolean firstSelection = true;
@@ -35,56 +44,121 @@ public class Config extends javax.swing.JFrame {
         initDyn();
         initComponents();
         
+        
+        
     	for(Day day: days) {
+    		
+    		// SWAP 1, TEAM 9
+    		// SMELL: Switch Statements - The massive list of if statements below would indicate
+    		// to us that there are variables being repeatedly rediscovered in this statement where
+    		// they should be defined in a class variable of a new or existing class so that they 
+    		// do not have to be rediscovered in the day value.
+    		
     		if(day.getNameOfDay().equals("Sunday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.sundayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[0].addElement(job);
     				this.sundayJobList.setModel(this.models[0]);
     			}
+    			*/
+    			constructorDaySetup(this.sundayCheck, day, 0);
+    			
     		} else if(day.getNameOfDay().equals("Monday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.mondayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[1].addElement(job);
     				this.sundayJobList.setModel(this.models[1]);
     			}
+    			*/
+    			constructorDaySetup(this.mondayCheck, day, 1);
+    			
     		} else if(day.getNameOfDay().equals("Tuesday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.tuesdayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[2].addElement(job);
     				this.sundayJobList.setModel(this.models[2]);
     			}
+    			*/
+    			constructorDaySetup(this.tuesdayCheck, day, 2);
+    			
     		} else if(day.getNameOfDay().equals("Wednesday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.wednesdayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[3].addElement(job);
     				this.sundayJobList.setModel(this.models[3]);
     			}
+    			*/
+    			constructorDaySetup(this.wednesdayCheck, day, 3);
+    			
     		} else if(day.getNameOfDay().equals("Thursday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.thursdayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[4].addElement(job);
     				this.sundayJobList.setModel(this.models[4]);
     			}
+    			*/
+    			constructorDaySetup(this.thursdayCheck, day, 4);
+    			
     		} else if(day.getNameOfDay().equals("Friday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.fridayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[5].addElement(job);
     				this.sundayJobList.setModel(this.models[5]);
     			}
+    			*/
+    			constructorDaySetup(this.fridayCheck, day, 5);
+    			
     		} else if(day.getNameOfDay().equals("Saturday")) {
+    			// SWAP 1, TEAM 9
+    			// QUALITY CHANGES
+    			// Reformatted this code to be a single call to 
+    			// constructorDaySetup 
+    			/*
     			this.saturdayCheck.doClick();
     			ArrayList<String> jobs = day.getJobs();
     			for(String job: jobs) {
     				this.models[6].addElement(job);
     				this.sundayJobList.setModel(this.models[6]);
     			}
+    			*/
+    			constructorDaySetup(this.saturdayCheck, day, 6);
+    			
     		}
     	}
     }
@@ -101,6 +175,10 @@ public class Config extends javax.swing.JFrame {
     
     @SuppressWarnings("rawtypes")
 	private void initDyn() {
+    	// SWAP 1, TEAM 9
+    	// SMELL: Duplicated Code - Each of these objects for every day has exactly the same set of components.
+    	// Clearly, they could all be combined into a single UI object for each day. This would greatly reduce 
+    	// the number of objects in our UI, which would greatly improve the understandability of the project.
         this.sundayScrollPane = new javax.swing.JScrollPane();
         this.sundayScrollPane.setPreferredSize(new Dimension(185,150));
         this.sundayJobList = new javax.swing.JList();
@@ -330,6 +408,11 @@ public class Config extends javax.swing.JFrame {
     /**
 	 * @param evt  
 	 */
+	// SWAP 1, TEAM 9
+	// SMELL: Shotgun Surgery - If we chose to modify what happens when someone performs an action on a day checkbox,
+	// we would have to change all seven of the below functions in the same way to accommodate the new functionality.
+    // Changing this to be in a single function for all seven days would allow us to make changes to the checkboxes
+    // far more rapidly.
     @SuppressWarnings("unchecked")
 	private void sundayCheckActionPerformed(java.awt.event.ActionEvent evt) {                                            
         if(this.sundayCheck.isSelected()) {
@@ -948,52 +1031,101 @@ public class Config extends javax.swing.JFrame {
     	ArrayList<Day> days = new ArrayList<Day>();
     	if(this.sundayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*
     		ArrayList<Object> sun = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[0].toArray());
     		sun.addAll(jobs);
         	days.add(new Day("Sunday",sun));
+        	*/
+    		nextButtonActionAddJobsToDay(0, "Sunday", days);
         }
     	if(this.mondayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*
     		ArrayList<Object> mon = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[1].toArray());
     		mon.addAll(jobs);
         	days.add(new Day("Monday",mon));
+        	*/
+    		nextButtonActionAddJobsToDay(1, "Monday", days);
         }
     	if(this.tuesdayCheck.isSelected())
         {
+            // SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*
     		ArrayList<Object> tue = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[2].toArray());
     		tue.addAll(jobs);
         	days.add(new Day("Tuesday",tue));
+        	*/
+    		nextButtonActionAddJobsToDay(2, "Tuesday", days);
         }
     	if(this.wednesdayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*        
     		ArrayList<Object> wed = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[3].toArray());
     		wed.addAll(jobs);
         	days.add(new Day("Wednesday",wed));
+        	*/
+    		nextButtonActionAddJobsToDay(3, "Wednesday", days);
         }
     	if(this.thursdayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*        
     		ArrayList<Object> thu = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[4].toArray());
     		thu.addAll(jobs);
         	days.add(new Day("Thursday",thu));
+        	*/
+    		nextButtonActionAddJobsToDay(4, "Thursday", days);
         }
     	if(this.fridayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*        
     		ArrayList<Object> fri = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[5].toArray());
     		fri.addAll(jobs);
         	days.add(new Day("Friday",fri));
+        	*/
+    		nextButtonActionAddJobsToDay(5, "Friday", days);
         }
     	if(this.saturdayCheck.isSelected())
         {
+    		// SWAP 1, TEAM 9
+    		// QUALITY CHANGES
+    		// This code is replaced by a single call to the 
+    		// nextButtonActionAddJobsToDay function
+    		/*        
     		ArrayList<Object> sat = new ArrayList<Object>();
     		List<Object> jobs = Arrays.asList(this.models[6].toArray());
     		sat.addAll(jobs);
         	days.add(new Day("Saturday",sat));
+        	*/
+    		nextButtonActionAddJobsToDay(6, "Saturday", days);
         }
     	if(days.size() > 0) {
     		boolean hasJobs = true;
@@ -1061,6 +1193,31 @@ public class Config extends javax.swing.JFrame {
             }
         });
     }
+    
+    // SWAP 1, TEAM 9
+	// QUALITY CHANGES
+    // This new function replaces a great deal of copy-pasted code from the 
+    // constructor's massive for loop.
+    public void constructorDaySetup(JCheckBox checkbox, Day day, int dayIndex){
+		checkbox.doClick();
+		ArrayList<String> jobs = day.getJobs();
+		for(String job: jobs) {
+			this.models[dayIndex].addElement(job);
+			this.sundayJobList.setModel(this.models[dayIndex]);
+		}
+    }
+    
+    // SWAP 1, TEAM 9
+	// QUALITY CHANGES
+    // This code breaks out the job-adding lines from the nextButtonActionPerformed
+    // function, so there is a great deal less code duplication.
+    public void nextButtonActionAddJobsToDay(int modelIndex, String dayName, ArrayList<Day> days){
+		ArrayList<Object> currentDay = new ArrayList<Object>();
+		List<Object> jobs = Arrays.asList(this.models[modelIndex].toArray());
+		currentDay.addAll(jobs);
+    	days.add(new Day(dayName,currentDay));
+    }
+    
     
     private javax.swing.JScrollPane sundayScrollPane;
     private javax.swing.JButton sundayAddJob;

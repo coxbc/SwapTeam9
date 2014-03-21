@@ -1,8 +1,10 @@
 package scheduleGenerator;
 
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -17,6 +19,12 @@ import javax.swing.table.DefaultTableModel;
  * 
  * @author schneimd
  */
+
+// SWAP 1, TEAM 9
+// SMELL: Divergent Change - This class has many responsibilities, and if we would like
+// to change something in the underlying code, it is closely entangled with the gui code.
+// This class thus requires us to change a great deal of gui code every single time we 
+// want to change a piece of functionality.
 public class CalendarGUI extends javax.swing.JFrame {
 
 	private Schedule schedule;
@@ -47,6 +55,30 @@ public class CalendarGUI extends javax.swing.JFrame {
 	}
 
 	private void setTitleMonth(int n, int year) {
+
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// This small piece of code has more error checking than the previous
+		// iteration and performs the same action in far less code, 
+		// with no code duplication. We did not consider this minor addition of
+		// error checking to be a wholesale change.
+		String monthName;
+		
+		if (!(n >= 1 && n <= 12)){
+			// Fail	Gracefully
+			monthName = "Invalid";
+		}
+		else{
+			monthName = new DateFormatSymbols().getMonths()[n-1];
+		}
+		
+		this.monthTitle.setText(monthName + " " + year);
+		this.monthName = monthName + " " + year;
+		
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// This large block of code is replaced by the above code.
+		/*
 		switch (n) {
 		case (1):
 			this.monthTitle.setText("January " + year);
@@ -96,8 +128,8 @@ public class CalendarGUI extends javax.swing.JFrame {
 			this.monthTitle.setText("December " + year);
 			this.monthName = "December " + year;
 			break;
-
-		}
+		 */
+		
 	}
 
 	/**
@@ -433,11 +465,17 @@ public class CalendarGUI extends javax.swing.JFrame {
 		this.jScrollPane1.setViewportView(this.scheduleTable);
 
 		this.fileMenu.setText("File");
-
+		
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// Applied the AcceleratorText function to this code.
+		/*
 		this.saveChanges.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_S,
 				java.awt.event.InputEvent.CTRL_MASK));
 		this.saveChanges.setText("Save Changes");
+		*/
+		acceleratorText(this.saveChanges, java.awt.event.KeyEvent.VK_S, "Save Changes");
 		this.saveChanges.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -457,27 +495,41 @@ public class CalendarGUI extends javax.swing.JFrame {
 			}
 		});
 		//this.fileMenu.add(this.undoChanges);
-
+		
 		this.menuBar.add(this.fileMenu);
 
 		this.editMenu.setText("Edit");
-
+		
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// Applied the AcceleratorText function to this code.
+		/*
 		this.editWorkers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_W,
 				java.awt.event.InputEvent.CTRL_MASK));
 		this.editWorkers.setText("Edit Workers");
+		 */
+		acceleratorText(this.editWorkers, java.awt.event.KeyEvent.VK_W, "Edit Workers");
 		this.editWorkers.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				editWorkersActionPerformed(evt);
 			}
 		});
+
+
 		this.editMenu.add(this.editWorkers);
 
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// Applied the AcceleratorText function to this code.
+		/*
 		this.editDays.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_D,
 				java.awt.event.InputEvent.CTRL_MASK));
 		this.editDays.setText("Edit Days");
+		*/
+		acceleratorText(this.editDays, java.awt.event.KeyEvent.VK_D, "Edit Days");
 		this.editDays.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -490,10 +542,16 @@ public class CalendarGUI extends javax.swing.JFrame {
 
 		this.generateMenu.setText("Generate");
 
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// Applied the AcceleratorText function to this code.
+		/*
 		this.genHtml.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_H,
 				java.awt.event.InputEvent.CTRL_MASK));
 		this.genHtml.setText("Generate Web Page");
+		*/
+		acceleratorText(this.genHtml, java.awt.event.KeyEvent.VK_H, "Generate Web Page");
 		this.genHtml.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -502,10 +560,16 @@ public class CalendarGUI extends javax.swing.JFrame {
 		});
 		this.generateMenu.add(this.genHtml);
 
+		// SWAP 1, TEAM 9
+		// QUALITY CHANGES
+		// Applied the AcceleratorText function to this code.
+		/*
 		this.generateText.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
 				java.awt.event.KeyEvent.VK_T,
 				java.awt.event.InputEvent.CTRL_MASK));
 		this.generateText.setText("Generate Text");
+		*/
+		acceleratorText(this.generateText, java.awt.event.KeyEvent.VK_T, "Generate Text");
 		this.generateText
 				.addActionListener(new java.awt.event.ActionListener() {
 					@Override
@@ -522,6 +586,12 @@ public class CalendarGUI extends javax.swing.JFrame {
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
+		
+		// SWAP 1, TEAM 9
+		// SMELL: Message Chains - the below mass of code is actually a few giant, broken lines.
+		// There a tremendous number of nested calls to subfunctions of subfunctions, which is
+		// something that creates high coupling and is therefore very difficult to change in the
+		// future. Making only a small change to the calendar's gui would be exceedingly difficult.
 		layout.setHorizontalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addComponent(this.jScrollPane1,
@@ -667,6 +737,11 @@ public class CalendarGUI extends javax.swing.JFrame {
 	/**
 	 * @param evt
 	 */
+	// SWAP 1, TEAM 9
+	// SMELL: Speculative Generality - This piece of code below is for the undo button, but the
+	// undo button does not appear to be implemented. The author apppears to have put in this code 
+	// in the hope of implementing the undo button at some point. This code should simply be deleted 
+	// to avoid confusing any people who may decide to utilize this codebase. 
 	private void undoChangesActionPerformed(java.awt.event.ActionEvent evt) {
 		// removed
 	}
@@ -687,6 +762,18 @@ public class CalendarGUI extends javax.swing.JFrame {
 			this.scheduleMap.get(date).put(job,input);
 			this.scheduleTable.setValueAt(job + ": " + input.getName(),i,j);
 		}
+	}
+	
+	// SWAP 1, TEAM 9\
+	// QUALITY CHANGES
+	// This function combines the two long function calls repeatedly copy-pasted
+	// in the above initComponents function into a single function with only
+	// three inputs
+	private void acceleratorText(JMenuItem input, int keyEvent, String text){
+		input.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+				keyEvent,
+				java.awt.event.InputEvent.CTRL_MASK));
+		input.setText(text);
 	}
 
 	private javax.swing.JMenuItem editDays;
