@@ -157,9 +157,9 @@ public class CalendarGUI extends javax.swing.JFrame {
 				}
 			}
 			if (currentKey.equals("")) {
-				Thread t = new Thread(this.schedule);
-				t.start();
-				//this.schedule.calculateNextMonth();
+				//Thread t = new Thread(this.schedule);
+				//t.start();
+				this.schedule.calculateNextMonth();
 			}
 		}
 
@@ -233,9 +233,9 @@ public class CalendarGUI extends javax.swing.JFrame {
 				}
 			}
 			if (currentKey.equals("")) {
-				Thread t = new Thread(this.schedule);
-				t.start();
-				//this.schedule.calculateNextMonth();
+				//Thread t = new Thread(this.schedule);
+				//t.start();
+				this.schedule.calculateNextMonth();
 			}
 		}
 
@@ -326,9 +326,9 @@ public class CalendarGUI extends javax.swing.JFrame {
 					}
 				}
 				if (currentKey.equals("")) {
-					Thread t = new Thread(this.schedule);
-					t.start();
-					//this.schedule.calculateNextMonth();
+					//Thread t = new Thread(this.schedule);
+					//t.start();
+					this.schedule.calculateNextMonth();
 				}
 			}
 

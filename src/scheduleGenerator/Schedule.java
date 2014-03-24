@@ -24,6 +24,7 @@ public class Schedule extends Thread implements Serializable {
 	private GregorianCalendar cal;
 	private HashMap<Integer, ArrayList<Worker>> workerIndices;
 	private boolean workerForEveryJob = true;
+	private HashMap<String, Integer> lastWorkerToPerformJob;
 
 	/**
 	 * Used to construct an initial schedule, used if one does not exist.
@@ -46,6 +47,22 @@ public class Schedule extends Thread implements Serializable {
 
 		this.cal = new GregorianCalendar();
 
+		
+		// SWAP 1, TEAM 9
+		// BONUS FEATURE
+		// This sets up the alternating workers hashmap. It creates a list of all
+		// jobs, and assumes that some null worker worked before, so that when we
+		// begin iterating through, we will setup the first, second, third, etc.
+		// workers.
+		this.lastWorkerToPerformJob = new HashMap<String, Integer>();
+		// Add Jobs with Null previous workers
+		for(Day currentDay : daySlots){
+			for(String job : currentDay.getJobs()){
+				lastWorkerToPerformJob.put(job, -1);
+			}
+		}
+		
+		
 		this.calculateNextMonth();
 	}
 
@@ -102,7 +119,6 @@ public class Schedule extends Thread implements Serializable {
 			this.shouldBreak = shouldBreak;
 			this.daysInMonth = daysInMonth;
 		}
-		
 	}
 	
 	// SWAP 1, TEAM 9
@@ -110,8 +126,7 @@ public class Schedule extends Thread implements Serializable {
 	// This function pulls out a massive amount of looping code from the main function. This piece
 	// allows us to modify the schedule generation that happens for each day.
 	private GenerateDayScheduleReturn generateDaySchedule(Day day, int daysInMonth, int currentMonth, ArrayList<Integer> numOfJobs){
-		if (this.cal.get(Calendar.DAY_OF_WEEK) == this.numForName(day
-				.getNameOfDay())) {
+		if (this.cal.get(Calendar.DAY_OF_WEEK) == this.numForName(day.getNameOfDay())) {
 
 			TreeMap<String, Worker> jobsWithWorker = new TreeMap<String, Worker>();
 			ArrayList<String> workersWorking = new ArrayList<String>();
@@ -126,17 +141,10 @@ public class Schedule extends Thread implements Serializable {
 			//asdfasdfadsfasdfasdfasdfasdfasdfasdfadsf
 			fillJobs(day, jobsInOrder, workersWorking, jobsWithWorker);
 
-			String date = this.cal.get(Calendar.YEAR)
-					+ "/"
-					+ String.format("%02d",
-							(this.cal.get(Calendar.MONTH) + 1))
-					+ "/"
-					+ String.format("%02d",
-							this.cal.get(Calendar.DAY_OF_MONTH));
+			String date = this.cal.get(Calendar.YEAR)+ "/" + String.format("%02d", (this.cal.get(Calendar.MONTH) + 1)) + "/" + String.format("%02d", this.cal.get(Calendar.DAY_OF_MONTH));
 			this.schedule.put(date, jobsWithWorker);
 			
 			return new GenerateDayScheduleReturn(true, daysInMonth);
-			
 		}
 		return new GenerateDayScheduleReturn(false, daysInMonth);
 	}
@@ -151,24 +159,32 @@ public class Schedule extends Thread implements Serializable {
 
 			ArrayList<Worker> workersForJob = new ArrayList<Worker>();
 
-			for (Worker worker : this.workerIndices.get(this
-					.numForName(day.getNameOfDay()))) {
-				Day workerDay = worker.getDayWithName(day
-						.getNameOfDay());
-				if (workerDay.getJobs().contains(job)
-						&& !workersWorking.contains(worker
-								.getName())) {
+			
+			
+			for (Worker worker : this.workerIndices.get(this.numForName(day.getNameOfDay()))) {
+				Day workerDay = worker.getDayWithName(day.getNameOfDay());
+				if (workerDay.getJobs().contains(job)&& !workersWorking.contains(worker.getName())) {
 					workersForJob.add(worker);
-
 				}
 			}
 			if (workersForJob.size() > 0) {
-				Worker workerForJob = workersForJob
-						.get(new Random().nextInt(workersForJob
-								.size()));
+				
+				// SWAP 1, TEAM 9
+				// BONUS FEATURE
+				// The below code allows us to cycle through workers for all the jobs
+				// which ensures that no worker works more than one week in a row
+				// at a time, if there are multiple workers for that job.
+				//Worker workerForJob = workersForJob.get(new Random().nextInt(workersForJob.size()));
+				Integer nextWorker = lastWorkerToPerformJob.get(job) + 1;
+				if (nextWorker > workersForJob.size()){
+					nextWorker = 0;
+				}
+				
+				Worker workerForJob = workersForJob.get(nextWorker);
+				
+				
 				for (Worker w : workersForJob) {
-					if (w.numWorkedForJob(job) < workerForJob
-							.numWorkedForJob(job)) {
+					if (w.numWorkedForJob(job) < workerForJob.numWorkedForJob(job)) {
 						workerForJob = w;
 					}
 				}
@@ -176,14 +192,8 @@ public class Schedule extends Thread implements Serializable {
 				workersWorking.add(workerForJob.getName());
 				workerForJob.addWorkedJob(job);
 			} else {
-				jobsWithWorker.put(job, new Worker("Empty",
-						new ArrayList<Day>()));
-				JOptionPane
-						.showMessageDialog(
-								new JFrame(),
-								"No workers are able to work as a(n) "
-										+ job + " on "
-										+ day.getNameOfDay());
+				jobsWithWorker.put(job, new Worker("Empty", new ArrayList<Day>()));
+				JOptionPane.showMessageDialog(new JFrame(),"No workers are able to work as a(n) "+ job + " on "+ day.getNameOfDay());
 				this.workerForEveryJob = false;
 				break;
 			}
@@ -194,7 +204,7 @@ public class Schedule extends Thread implements Serializable {
 	 * Calculates another month of schedule based on workers availability.
 	 * 
 	 */
-	private synchronized void calculateNextMonth() {
+	public void calculateNextMonth() {
 
 		int initialSize = this.schedule.size();
 

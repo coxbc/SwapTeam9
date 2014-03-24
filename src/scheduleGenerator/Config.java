@@ -42,9 +42,7 @@ public class Config extends javax.swing.JFrame {
 	public Config(ArrayList<Day> days) {
     	this.models = new DefaultListModel[7];
         initDyn();
-        initComponents();
-        
-        
+        initComponents();        
         
     	for(Day day: days) {
     		
