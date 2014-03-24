@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.JMenuItem;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -75,9 +76,10 @@ public class CalendarGUI extends javax.swing.JFrame {
 		this.monthTitle.setText(monthName + " " + year);
 		this.monthName = monthName + " " + year;
 		
+		
 		// SWAP 1, TEAM 9
 		// QUALITY CHANGES
-		// This large block of code is replaced by the above code.
+		// This large block of code is replaced by the above code, which is much shorter.
 		/*
 		switch (n) {
 		case (1):
@@ -423,7 +425,12 @@ public class CalendarGUI extends javax.swing.JFrame {
 
 		this.monthTitle.setFont(new java.awt.Font("Tahoma", 1, 24));
 		this.monthTitle.setText("Month Name Here");
-
+		
+		// SWAP 1 TEAM 9
+		// ADDITIONAL FEATURE
+		// The Month title is also centered in between the previous and next
+		// month buttons
+		this.monthTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		this.previousMonthButton.setText("<");
 		this.previousMonthButton
 				.addActionListener(new java.awt.event.ActionListener() {
@@ -433,6 +440,7 @@ public class CalendarGUI extends javax.swing.JFrame {
 					}
 				});
 
+		
 		this.nextMonthButton.setText(">");
 		this.nextMonthButton
 				.addActionListener(new java.awt.event.ActionListener() {
@@ -603,7 +611,10 @@ public class CalendarGUI extends javax.swing.JFrame {
 								.addComponent(this.previousMonthButton)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(this.monthTitle)
+								// SWAP 1, TEAM 9
+								// ADDITIONAL FEATURE
+								// I fixed the next month button in a single place! Hurrah!
+								.addComponent(this.monthTitle, 200, 200, 200)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(this.nextMonthButton)
